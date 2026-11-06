@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediCare Hospital • Advanced Patient Management</title>
+  <!-- Font Awesome 6 (free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+    }
+
+    body {
+      background: #f4f7fc;
+      color: #1a2e35;
+      padding: 2rem 1rem;
+      transition: background 0.3s;
+    }
+
+    body.dark-mode {
+      background: #0f1c21;
+      color: #d0e2e8;
+    }
+
+    .app {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo i {
+      font-size: 2.2rem;
+      color: #0a6b7c;
+      background: white;
+      padding: 0.6rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 80, 100, 0.1);
+    }
+
+    .logo h1 {
+      font-weight: 600;
+      color: #0b3b44;
+      font-size: 1.9rem;
+      letter-spacing: -0.5px;
+    }
+
+    .logo span {
+      color: #0a6b7c;
+      font-weight: 300;
+    }
+
+    .badge {
+      background: white;
+      padding: 0.6rem 1.5rem;
+      border-radius: 40px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: #0b3b44;
+      font-weight: 500;
+    }
+
+    .badge i {
+      color: #1e9b8a;
+    }
+
+    .badge .role-tag {
+      background: #e0f0f3;
+      padding: 0.15rem 0.7rem;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #0a6b7c;
+      text-transform: uppercase;
+    }
+
+    /* Public homepage hero */
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 2rem;
+      margin-bottom: 2.5rem;
+      background: linear-gradient(145deg, #ffffff 0%, #f0f9fb 100%);
+      border-radius: 36px;
+      padding: 2rem 2.5rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 40, 60, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    @media (max-width: 950px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 1.8rem;
+      }
+    }
+
+    .hero-content h2 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: #0b3b44;
+      letter-spacing: -1px;
+      line-height: 1.2;
+      margin-bottom: 0.8rem;
+    }
+
+    .hero-content h2 i {
+      color: #1e9b8a;
+      font-size: 2rem;
+    }
+
+    .hero-content p {
+      color: #4e6e78;
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .hospital-stats {
+      display: flex;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-number {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #0a6b7c;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: #6b8c96;
+      letter-spacing: 0.3px;
+    }
+
+    .hero-image {
+      background: linear-gradient(135deg, #0a6b7c 0%, #1e9b8a 100%);
+      border-radius: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 220px;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 30px -10px rgba(10, 107, 124, 0.4);
+    }
+
+    .hero-image::after {
+      content: "🏥";
+      font-size: 6rem;
+      opacity: 0.9;
+      filter: drop-shadow(0 8px 12px rgba(0,0,0,0.2));
+    }
+
+    .hero-image .floating-badge {
+      position: absolute;
+      bottom: 15px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #0a6b7c;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    /* Doctor spotlight */
+    .doctor-spotlight {
+      display: grid;
+      grid-template-columns: 0.7fr 1.3fr;
+      gap: 2rem;
+      background: white;
+      border-radius: 36px;
+      padding: 2rem 2.5rem;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 20px 40px -12px rgba(0, 40, 60, 0.1);
+      border: 1px solid #eaf2f5;
+    }
+
+    @media (max-width: 850px) {
+      .doctor-spotlight {
+        grid-template-columns: 1fr;
+        padding: 1.8rem;
+      }
+    }
+
+    .doctor-avatar {
+      background: linear-gradient(145deg, #d9f0ec, #b3e0d6);
+      border-radius: 32px;
+      min-height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      box-shadow: inset 0 0 0 3px rgba(255,255,255,0.6);
+    }
+
+    .doctor-avatar i {
+      color: #0a6b7c;
+      opacity: 0.85;
+    }
+
+    .doctor-info h3 {
+      font-size: 1.8rem;
+      color: #0b3b44;
+      font-weight: 700;
+    }
+
+    .doctor-info .specialty {
+      color: #1e9b8a;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .doctor-info .degree {
+      background: #eef6f9;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      display: inline-block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #34606d;
+      margin-bottom: 1rem;
+    }
+
+    .doctor-info .review-stars {
+      color: #f5b342;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      margin-bottom: 0.8rem;
+    }
+
+    .doctor-info .review-stars span {
+      color: #60818b;
+      font-size: 0.85rem;
+      margin-left: 0.5rem;
+      letter-spacing: 0;
+    }
+
+    .review-quote {
+      background: #f7fbfd;
+      border-left: 5px solid #1e9b8a;
+      padding: 1rem 1.5rem;
+      border-radius: 18px;
+      font-style: italic;
+      color: #315d69;
+      margin: 1rem 0;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* Login/Registration tabs */
+    .auth-section {
+      background: white;
+      border-radius: 36px;
+      padding: 2rem 2.5rem;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 20px 40px -12px rgba(0, 40, 60, 0.1);
+    }
+
+    .auth-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.8rem;
+      border-bottom: 2px solid #e0edf1;
+      padding-bottom: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .auth-tab {
+      background: transparent;
+      border: none;
+      padding: 0.6rem 1.5rem;
+      border-radius: 40px;
+      font-weight: 600;
+      color: #6b8c96;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .auth-tab i {
+      font-size: 1rem;
+    }
+
+    .auth-tab.active {
+      background: #0a6b7c;
+      color: white;
+      box-shadow: 0 8px 16px -4px rgba(10, 107, 124, 0.3);
+    }
+
+    .auth-tab:not(.active):hover {
+      background: #eef6f9;
+      color: #0a6b7c;
+    }
+
+    .auth-form-panel {
+      display: none;
+    }
+
+    .auth-form-panel.active {
+      display: block;
+    }
+
+    .auth-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 850px) {
+      .auth-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+    }
+
+    .auth-card {
+      background: #f7fbfd;
+      border-radius: 28px;
+      padding: 1.8rem;
+      border: 1px solid #e0edf1;
+    }
+
+    .auth-card h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #103a42;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .auth-card h3 i {
+      color: #1e9b8a;
+    }
+
+    /* Forms */
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #4a6870;
+      margin-bottom: 0.3rem;
+      letter-spacing: 0.3px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border-radius: 16px;
+      border: 1.5px solid #dae6ea;
+      background: #fafdff;
+      font-size: 0.95rem;
+      transition: 0.2s;
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: #1e9b8a;
+      background: white;
+      box-shadow: 0 0 0 4px rgba(30, 155, 138, 0.1);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    button {
+      background: #0a6b7c;
+      border: none;
+      color: white;
+      font-weight: 600;
+      padding: 0.9rem 1.6rem;
+      border-radius: 40px;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 8px 18px -6px rgba(10, 107, 124, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    button:hover {
+      background: #085b69;
+      transform: scale(0.98);
+    }
+
+    button.secondary {
+      background: white;
+      color: #0a6b7c;
+      border: 1.5px solid #bcd8e0;
+      box-shadow: none;
+    }
+
+    button.secondary:hover {
+      background: #f0f9fb;
+    }
+
+    button.small {
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+      border-radius: 30px;
+    }
+
+    /* Dashboard - patient management */
+    .dashboard {
+      display: grid;
+      grid-template-columns: 1.3fr 0.9fr;
+      gap: 1.8rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 950px) {
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 28px;
+      padding: 1.8rem 1.8rem 2rem;
+      box-shadow: 0 20px 40px -12px rgba(0, 40, 60, 0.12);
+      transition: transform 0.2s ease;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-header i {
+      font-size: 1.6rem;
+      color: #0a6b7c;
+      background: #e0f0f3;
+      padding: 0.6rem;
+      border-radius: 18px;
+    }
+
+    .card-header h2 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #103a42;
+    }
+
+    .list-item {
+      background: #f7fbfd;
+      border-radius: 20px;
+      padding: 1rem 1.2rem;
+      margin-bottom: 1rem;
+      border-left: 6px solid #1e9b8a;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      transition: 0.15s;
+    }
+
+    .list-item:hover {
+      background: #eef6f9;
+    }
+
+    .patient-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .patient-name {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: #103a42;
+    }
+
+    .patient-detail {
+      font-size: 0.8rem;
+      color: #527a84;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .patient-detail i {
+      margin-right: 0.2rem;
+      color: #1e9b8a;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .icon-btn {
+      background: white;
+      border: 1px solid #d0e2e8;
+      border-radius: 30px;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #3e6d78;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .icon-btn:hover {
+      background: #e2f0f4;
+      color: #0a6b7c;
+      border-color: #1e9b8a;
+    }
+
+    .appointment-item {
+      background: #f8fcfd;
+      border-radius: 18px;
+      padding: 0.9rem 1.2rem;
+      margin-bottom: 0.8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid #e0edf1;
+    }
+
+    .appointment-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .appointment-name {
+      font-weight: 600;
+      color: #103a42;
+    }
+
+    .appointment-time {
+      font-size: 0.8rem;
+      color: #4e7a85;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      margin-top: 0.2rem;
+    }
+
+    .fee-badge {
+      background: #0a6b7c;
+      color: white;
+      border-radius: 30px;
+      padding: 0.2rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .pay-btn {
+      background: #1e9b8a;
+      padding: 0.45rem 1.2rem;
+      font-size: 0.8rem;
+      border-radius: 40px;
+      box-shadow: none;
+    }
+
+    .pay-btn:hover {
+      background: #178a7a;
+    }
+
+    .paid-badge {
+      background: #d4edda;
+      color: #155724;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .empty-message {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: #6f919b;
+      font-style: italic;
+      background: #f7fbfd;
+      border-radius: 20px;
+      font-size: 0.95rem;
+    }
+
+    .role-protection {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      border-radius: 20px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: #856404;
+      font-size: 0.9rem;
+    }
+
+    .role-protection i {
+      font-size: 1.5rem;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* dark mode tweaks */
+    body.dark-mode .hero,
+    body.dark-mode .doctor-spotlight,
+    body.dark-mode .auth-section,
+    body.dark-mode .card {
+      background: #1a2e35;
+      border-color: #2a4752;
+      color: #c0d9e2;
+    }
+
+    body.dark-mode .hero-content h2,
+    body.dark-mode .doctor-info h3,
+    body.dark-mode .card-header h2 {
+      color: #b0d9e6;
+    }
+
+    body.dark-mode .auth-card {
+      background: #0f1c21;
+      border-color: #2a4752;
+    }
+
+    body.dark-mode input,
+    body.dark-mode select,
+    body.dark-mode textarea {
+      background: #0f1c21;
+      border-color: #2a4752;
+      color: #c0d9e2;
+    }
+
+    body.dark-mode .list-item,
+    body.dark-mode .appointment-item,
+    body.dark-mode .review-quote {
+      background: #0f1c21;
+      border-color: #2a4752;
+    }
+
+    body.dark-mode .badge {
+      background: #1a2e35;
+      color: #b0d9e6;
+    }
+
+    body.dark-mode .logo h1 {
+      color: #b0d9e6;
+    }
+
+    body.dark-mode .badge .role-tag {
+      background: #2a4752;
+      color: #b0d9e6;
+    }
+
+    body.dark-mode .auth-tab.active {
+      background: #1e9b8a;
+    }
+
+    body.dark-mode .doctor-info .degree {
+      background: #2a4752;
+      color: #b0d9e6;
+    }
+
+    body.dark-mode .role-protection {
+      background: #3a2e1a;
+      border-color: #5a4a2a;
+      color: #e0c97a;
+    }
+
+    body.dark-mode .stat-number {
+      color: #7ac9d9;
+    }
+
+    body.dark-mode .empty-message {
+      background: #0f1c21;
+    }
+
+    body.dark-mode .patient-name,
+    body.dark-mode .appointment-name {
+      color: #b0d9e6;
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">
+      <i class="fas fa-stethoscope"></i>
+      <h1>Medi<span>Care</span> Hospital</h1>
+    </div>
+    <div class="badge" id="userBadge">
+      <i class="fas fa-user-circle"></i>
+      <span id="userGreeting">Guest</span>
+      <span class="role-tag" id="userRoleTag">Visitor</span>
+      <button class="secondary small" id="toggleDark" style="margin-left: 0.5rem; padding: 0.3rem 0.8rem;"><i class="fas fa-moon"></i></button>
+    </div>
+  </div>
+
+  <!-- PUBLIC HOMEPAGE: Hospital Hero -->
+  <div class="hero">
+    <div class="hero-content">
+      <h2><i class="fas fa-heartbeat"></i> World-class care, <br>right here.</h2>
+      <p>MediCare Hospital combines cutting-edge technology with compassionate care. Our team of specialists is dedicated to your health and recovery.</p>
+      <div class="hospital-stats">
+        <div class="stat-item">
+          <span class="stat-number">40+</span>
+          <span class="stat-label">Specialists</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">15k+</span>
+          <span class="stat-label">Patients served</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">4.9</span>
+          <span class="stat-label">Patient rating</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-image">
+      <div class="floating-badge"><i class="fas fa-star"></i> 24/7 Emergency</div>
+    </div>
+  </div>
+
+  <!-- Doctor spotlight -->
+  <div class="doctor-spotlight">
+    <div class="doctor-avatar">
+      <i class="fas fa-user-md"></i>
+    </div>
+    <div class="doctor-info">
+      <h3>Dr. Sarah Chen</h3>
+      <div class="specialty"><i class="fas fa-stethoscope"></i> General Medicine & Cardiology</div>
+      <div class="degree">MD, PhD – Johns Hopkins University</div>
+      <div class="review-stars">
+        ★★★★★ <span>4.9 (128 reviews)</span>
+      </div>
+      <div class="review-quote">
+        “Dr. Chen is incredibly thorough and kind. She explained everything clearly and made me feel at ease.” — Michael R.
+      </div>
+      <p style="font-size: 0.9rem; color: #4e6e78; margin-top: 0.5rem;">Fellow of the American College of Physicians. Over 15 years of clinical experience.</p>
+    </div>
+  </div>
+
+  <!-- AUTH SECTION: Login & Registration for 3 roles -->
+  <div class="auth-section">
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-panel="loginPanel"><i class="fas fa-sign-in-alt"></i> Login</button>
+      <button class="auth-tab" data-panel="registerPanel"><i class="fas fa-user-plus"></i> Register</button>
+    </div>
+
+    <!-- LOGIN PANEL -->
+    <div class="auth-form-panel active" id="loginPanel">
+      <div class="auth-grid">
+        <!-- Doctor login -->
+        <div class="auth-card">
+          <h3><i class="fas fa-user-md"></i> Doctor Login</h3>
+          <form id="doctorLoginForm">
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" id="docLoginEmail" placeholder="doctor@medicare.com" required>
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" id="docLoginPassword" placeholder="••••••••" required>
+            </div>
+            <button type="submit"><i class="fas fa-arrow-right"></i> Login as Doctor</button>
+          </form>
+        </div>
+        <!-- Staff login -->
+        <div class="auth-card">
+          <h3><i class="fas fa-user-tie"></i> Staff Login</h3>
+          <form id="staffLoginForm">
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" id="staffLoginEmail" placeholder="staff@medicare.com" required>
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" id="staffLoginPassword" placeholder="••••••••" required>
+            </div>
+            <button type="submit"><i class="fas fa-arrow-right"></i> Login as Staff</button>
+          </form>
+        </div>
+        <!-- Patient login -->
+        <div class="auth-card">
+          <h3><i class="fas fa-user"></i> Patient Login</h3>
+          <form id="patientLoginForm">
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" id="patLoginEmail" placeholder="patient@example.com" required>
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" id="patLoginPassword" placeholder="••••••••" required>
+            </div>
+            <button type="submit"><i class="fas fa-arrow-right"></i> Login as Patient</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- REGISTER PANEL -->
+    <div class="auth-form-panel" id="registerPanel">
+      <div class="auth-grid">
+        <!-- Doctor register -->
+        <div class="auth-card">
+          <h3><i class="fas fa-user-md"></i> Doctor Registration</h3>
+          <form id="doctorRegisterForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Full name</label>
+                <input type="text" id="docRegName" placeholder="Dr. Jane Smith" required>
+              </div>
+              <div class="form-group">
+                <label>Specialty</label>
+                <input type="text" id="docRegSpecialty" placeholder="Cardiology" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" id="docRegEmail" placeholder="jane@medicare.com" required>
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" id="docRegPassword" placeholder="min 6 characters" required minlength="6">
+            </div>
+            <button type="submit"><i class="fas fa-check-circle"></i> Register Doctor</button>
+          </form>
+        </div>
+        <!-- Staff register -->
+        <div class="auth-card">
+          <h3><i class="fas fa-user-tie"></i> Staff Registration</h3>
+          <form id="staffRegisterForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Full name</label>
+                <input type="text" id="staffRegName" placeholder="John Doe" required>
+              </div>
+              <div class="form-group">
+                <label>Role</label>
+                <select id="staffRegRole" required>
+                  <option value="Nurse">Nurse</option>
+                  <option value="Receptionist">Receptionist</option>
+                  <option value="Lab Technician">Lab Technician</option>
+                  <option value="Administrator">Administrator</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" id="staffRegEmail" placeholder="john@medicare.com" required>
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" id="staffRegPassword" placeholder="min 6 characters" required minlength="6">
+            </div>
+            <button type="submit"><i class="fas fa-check-circle"></i> Register Staff</button>
+          </form>
+        </div>
+        <!-- Patient register -->
+        <div class="auth-card">
+          <h3><i class="fas fa-user"></i> Patient Registration</h3>
+          <form id="patientRegisterForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Full name</label>
+                <input type="text" id="patRegName" placeholder="Alice Johnson" required>
+              </div>
+              <div class="form-group">
+                <label>Date of birth</label>
+                <input type="date" id="patRegDob" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" id="patRegEmail" placeholder="alice@example.com" required>
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" id="patRegPassword" placeholder="min 6 characters" required minlength="6">
+            </div>
+            <button type="submit"><i class="fas fa-check-circle"></i> Register Patient</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD (visible only when logged in as doctor or staff) -->
+  <div id="dashboardSection" class="hidden">
+    <div class="role-protection" id="roleNotice">
+      <i class="fas fa-shield-alt"></i>
+      <span id="roleNoticeText">You are logged in as <strong>Doctor</strong>. You have full access to patient records and appointments.</span>
+    </div>
+
+    <div class="dashboard">
+      <!-- LEFT COLUMN: Patient Management -->
+      <div>
+        <div class="card" id="patientFormCard">
+          <div class="card-header">
+            <i class="fas fa-notes-medical"></i>
+            <h2>New patient / update</h2>
+          </div>
+          <form id="patientForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Patient full name</label>
+                <input type="text" id="patientName" placeholder="e.g. Emma Watson" required>
+              </div>
+              <div class="form-group">
+                <label>Age</label>
+                <input type="number" id="patientAge" placeholder="32" min="0" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Current medication</label>
+              <input type="text" id="medication" placeholder="e.g. Amoxicillin 500mg, 3x daily">
+            </div>
+            <div class="form-group">
+              <label>Ongoing treatment / notes</label>
+              <textarea id="treatment" rows="2" placeholder="Physiotherapy, wound care, etc."></textarea>
+            </div>
+            <button type="submit"><i class="fas fa-plus-circle"></i> Save patient record</button>
+          </form>
+        </div>
+
+        <div class="card" style="margin-top: 1.8rem;">
+          <div class="card-header">
+            <i class="fas fa-users"></i>
+            <h2>Patients & treatments</h2>
+          </div>
+          <div id="patientListContainer"></div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: Appointments & Payment -->
+      <div>
+        <div class="card" id="appointmentFormCard">
+          <div class="card-header">
+            <i class="fas fa-calendar-plus"></i>
+            <h2>Book appointment</h2>
+          </div>
+          <form id="appointmentForm">
+            <div class="form-group">
+              <label>Patient name</label>
+              <input type="text" id="appPatientName" placeholder="e.g. James Lee" required>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Date</label>
+                <input type="date" id="appDate" required>
+              </div>
+              <div class="form-group">
+                <label>Time</label>
+                <input type="time" id="appTime" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Consultation fee ($)</label>
+              <input type="number" id="appFee" value="120" min="0" step="5" required>
+            </div>
+            <button type="submit"><i class="fas fa-calendar-check"></i> Book & add fee</button>
+          </form>
+        </div>
+
+        <div class="card" style="margin-top: 1.8rem;">
+          <div class="card-header">
+            <i class="fas fa-clock"></i>
+            <h2>Appointments & online payment</h2>
+          </div>
+          <div id="appointmentListContainer"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // ========== STATE ==========
+    let patients = [
+      { id: 'p1', name: 'Emma Watson', age: 34, medication: 'Lisinopril 10mg, once daily', treatment: 'Hypertension monitoring, low-sodium diet' },
+      { id: 'p2', name: 'James Lee', age: 58,
